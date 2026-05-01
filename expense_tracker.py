@@ -95,15 +95,20 @@ if username:
         if df.empty:
             st.info("No expenses to plot!")
 
-        
         else:
-            category_summary = df.groupby("Category")["Amount"].sum()
-            fig, ax = plt.subplots()
-            category_summary.plot(kind="bar", color="skyblue", ax=ax)
-            ax.set_title("Expenses by Category")
-            ax.set_xlabel("Category")
-            ax.set_ylabel("Amount")
-            st.pyplot(fig)
+            if graph_choice == "Line_chart":
+                plt.plot(df["Date"],df["Amount"])
+                plt.title("Date by Amount")
+        
+        # else:
+        #     if 
+        #     category_summary = df.groupby("Category")["Amount"].sum()
+        #     fig, ax = plt.subplots()
+        #     category_summary.plot(kind="bar", color="skyblue", ax=ax)
+        #     ax.set_title("Expenses by Category")
+        #     ax.set_xlabel("Category")
+        #     ax.set_ylabel("Amount")
+        #     st.pyplot(fig)
 
     elif choice == "Budget & Alerts":
         st.subheader("Budget Limit")
