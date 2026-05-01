@@ -57,7 +57,7 @@ username = st.text_input("Enter your username")
 if username:
     init_csv(username)
 
-    menu = ["Add Expense", "Show Summary", "Show Graph", "Clear Data", "Budget & Alerts"]
+    menu = ["Add Expense", "Show Summary", "Show Graph", "Clear Data", "Budget & Alerts","History"]
     choice = st.sidebar.radio("Menu", menu)
 
     if choice == "Add Expense":
