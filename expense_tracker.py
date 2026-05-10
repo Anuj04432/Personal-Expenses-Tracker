@@ -57,7 +57,7 @@ username = st.text_input("Enter your username")
 if username:
     init_csv(username)
 
-    menu = ["Add Expense", "Show Summary", "Show Graph", "Clear Data", "Budget & Alerts"]
+    menu = ["Add Expense", "Show Summary", "Show Graph", "Clear Data", "Budget & Alerts","History"]
     choice = st.sidebar.radio("Menu", menu)
 
     if choice == "Add Expense":
@@ -88,22 +88,40 @@ if username:
             st.write(f"Total Spent: ₹{total}")
 
     elif choice == "Show Graph":
-        types = ['Bar_graph','Line_chart','Histogram']
+        types = ['Bar_graph','Line_chart','Pie_chart']
         st.subheader("Expenses by Category")
         graph_choice = st. radio("Graphs",types)
         df = load_data(username)
         if df.empty:
             st.info("No expenses to plot!")
 
-        
         else:
-            category_summary = df.groupby("Category")["Amount"].sum()
-            fig, ax = plt.subplots()
-            category_summary.plot(kind="bar", color="skyblue", ax=ax)
-            ax.set_title("Expenses by Category")
-            ax.set_xlabel("Category")
-            ax.set_ylabel("Amount")
-            st.pyplot(fig)
+            if graph_choice == 'Bar_graph':
+                category_summary = df.groupby("Category")["Amount"].sum()
+                fig, ax = plt.subplots()
+                category_summary.plot(kind="bar", color="skyblue", ax=ax)
+                ax.set_title("Expenses by Category")
+                ax.set_xlabel("Category")
+                ax.set_ylabel("Amount")
+                st.pyplot(fig)
+            elif graph_choice == 'Line_chart':
+                fig, ax = plt.subplots()
+                ax.plot(df["Date"],df["Amount"])
+                st.pyplot(fig)
+            elif graph_choice == 'Pie_chart':
+                category_summary = df.groupby("Category")["Amount"].sum()
+                fig , ax = plt.subplots()
+                ax.pie(category_summary,labels=category_summary.index,autopct='%1.1f%%')
+                st.pyplot(fig)
+
+        # else:
+        #     category_summary = df.groupby("Category")["Amount"].sum()
+        #     fig, ax = plt.subplots()
+        #     category_summary.plot(kind="bar", color="skyblue", ax=ax)
+        #     ax.set_title("Expenses by Category")
+        #     ax.set_xlabel("Category")
+        #     ax.set_ylabel("Amount")
+        #     st.pyplot(fig)
 
     elif choice == "Budget & Alerts":
         st.subheader("Budget Limit")
